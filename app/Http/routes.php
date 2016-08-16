@@ -19,15 +19,21 @@ Route::get('/sayhello/{name?}', function ($name) {
 	return "Hello, $name";
 });
 
-Route::get('/uppercase', function($string = 'string') {
-	return strtoupper($string);
+Route::get('/uppercase/{string}', function($string) {
+	$data['string'] = strtoupper($string);
+	return view('uppercase', $data);
 });
 
-Route::get('/increment', function($number = 5) {
+Route::get('/increment/{number}', function($number) {
 	$number++;
 	return $number;
 });
 
-Route:get('/add/{num1}/{num2}', function($num1, $num2) {
+Route::get('/add/{num1}/{num2}', function($num1, $num2) {
 	return ($num1 + $num2);
+});
+
+Route::get('/rolldice/{sides}', function($sides) {
+	$data['result'] = mt_rand(1, $sides);
+	return view('roll-dice', $data);
 });
