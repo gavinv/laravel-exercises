@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+Route::get('/', 'HomeController@showWelcome');
 
 Route::get('/sayhello/{name?}', function ($name) {
 	return "Hello, $name";
@@ -33,7 +31,4 @@ Route::get('/add/{num1}/{num2}', function($num1, $num2) {
 	return ($num1 + $num2);
 });
 
-Route::get('/rolldice/{sides}', function($sides) {
-	$data['result'] = mt_rand(1, $sides);
-	return view('roll-dice', $data);
-});
+Route::get('/rolldice/{sides}', 'HomeController@rollDice');
