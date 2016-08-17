@@ -32,3 +32,5 @@ Route::get('/add/{num1}/{num2}', function($num1, $num2) {
 });
 
 Route::get('/rolldice/{sides}', 'HomeController@rollDice');
+
+Route::resource('/posts', 'PostsController');
