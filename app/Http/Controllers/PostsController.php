@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Post;
 
 class PostsController extends Controller
 {
@@ -16,7 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return 'Show a list of all posts';
+        $posts = Post::all();
+        $data = compact('posts');
+        return view('posts.index', $data);
     }
 
     /**
@@ -26,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return 'Show a form for creating a post';
+        return view('posts.create');
 
     }
 
@@ -38,7 +41,20 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Store the new post';
+        $rules = [
+            'title' => 'required|max:100',
+            'content' => 'required',
+            'url' => 'url'
+        ];
+        $this->validate($request, $rules);
+
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->url = $request->input('url');
+        $post->created_by = 1;
+        $post->save();
+        return redirect()->action('PostsController@index');
     }
 
     /**
@@ -49,7 +65,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return 'Show a specific post';
+        $data['post'] = Post::find($id);
+        return view('posts.show', $data);
     }
 
     /**
