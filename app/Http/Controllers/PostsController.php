@@ -17,8 +17,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        $data = compact('posts');
+        $data['posts'] = Post::paginate(1);
         return view('posts.index', $data);
     }
 
@@ -41,12 +40,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'title' => 'required|max:100',
-            'content' => 'required',
-            'url' => 'url'
-        ];
-        $this->validate($request, $rules);
+        $this->validate($request, Post::$rules);
 
         $post = new Post();
         $post->title = $request->input('title');
