@@ -17,6 +17,8 @@ class CreateTablePosts extends Migration
             $table->string('title');
             $table->string('url')->nullable();
             $table->string('content');
+            $table->integer('sub_id')->unsigned();
+            $table->foreign('sub_id')->references('id')->on('subreddits');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();

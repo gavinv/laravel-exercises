@@ -3,12 +3,11 @@
 @section('content')
 	<table>
 @foreach ($posts as $post)
-	<h3>Title</h3>
-	<div> <strong>{{ $post->title }}</strong></div>
-	Posted on: {{ $post->created_at->setTimezone('America/Chicago')->format('l, F jS Y @ h:i:s A') }}
+	<div> <h4><a href="{{ action('PostsController@show', $post->id) }}">{{ $post->title }}</a></h4></div>
+	<small>submitted {{ $post->created_at->diffForHumans() }} by {{ $post->author->username }} to <a href="#">/r/{{ $post->subreddit->name }}</a></small>
 	<br>
 	<div>-----------------------------------------</div>
-	{!! $posts->render() !!}
 @endforeach
+	{!! $posts->render() !!}
 
 @stop
