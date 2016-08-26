@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Post extends Model
 {
@@ -40,4 +41,41 @@ class Post extends Model
 		{
 			return $this->belongsTo(Subreddit::class, 'sub_id');
 		}
+
+		public function votes()
+		{
+			return $this->hasMany(Vote::class, 'post_id');
+		}
+
+    public function upvotes() 
+    {
+    	return $this->votes()->where('vote', 1)->count();
+    }
+
+    public function downvotes() 
+    {
+    	return $this->votes()->where('vote', 0)->count();
+    }
+
+    public function totalVotes() 
+    {
+    	return $this->upvotes() - $this->downvotes();
+    }
+
+    public function userVote($user)
+    {
+        return $this->votes()->where('user_id', '=', $user->id)->first();
+    }
+
+
+    public function hasBeenUpvoted()
+    {
+    	return Auth::check() && !is_null($this->userVote(Auth::user())) && $this->userVote(Auth::user())->vote;
+    }
+
+    public function hasBeenDownvoted()
+    {
+    	return Auth::check() && !is_null($this->userVote(Auth::user())) && !$this->userVote(Auth::user())->vote;
+    }
+
 }

@@ -28,7 +28,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['username', 'email', 'password'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -40,5 +40,13 @@ class User extends Model implements AuthenticatableContract,
     public function posts()
     {
         return $this->hasMany(Post::class, 'created_by');
+    }
+    public function totalUserVotes()
+    {
+        $totalVotes = 0;
+        foreach($this->posts as $post) {
+            $totalVotes += $post->totalVotes();
+        }
+        return $totalVotes;
     }
 }

@@ -20,12 +20,12 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' =>['index', 'show']]);
     }
 
     public function index()
     {
-        $data['posts'] = Post::with('author')->with('subreddit')->paginate(3);
+        $data['posts'] = Post::with('author')->with('subreddit')->paginate(15);
         $data['loggedInUser'] = Auth::user();
         return view('posts.index', $data);
     }

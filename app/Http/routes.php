@@ -12,7 +12,7 @@ use App\Post;
 |
 */
 
-Route::get('/', 'HomeController@showWelcome');
+Route::resource('/', 'PostsController');
 
 Route::resource('/posts', 'PostsController');
 
@@ -22,3 +22,5 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+Route::post('votes/create', 'VotesController@vote');
